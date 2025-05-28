@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador para Evento Especial</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+        }
+        #countdown {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        #event-link {
+            display: none;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+        #event-link:hover {
+            background-color: #2980b9;
+        }
+        .message {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            transition: opacity 0.5s ease;
+        }
+        .hidden {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contador para Evento Especial</h1>
+        <p class="message" id="status-message">El evento comenzará en:</p>
+        <div id="countdown">00:00:00:00</div>
+        <a href="https://www.tuenlace.com" id="event-link" target="_blank">¡Acceder al Evento!</a>
+    </div>
+
+    <script>
+        // Configura la fecha y hora objetivo (formato: Año, Mes-1, Día, Hora, Minuto, Segundo)
+        //const targetDate = new Date(2024, 11, 31, 23, 59, 59); // 31 de Diciembre 2024, 23:59:59
+        const targetDate = new Date(2025, 5, 25, 18, 59, 59); // 31 de Diciembre 2024, 23:59:59
+        
+        // Elementos del DOM
+        const countdownElement = document.getElementById('countdown');
+        const eventLink = document.getElementById('event-link');
+        const statusMessage = document.getElementById('status-message');
+        
+        function updateCountdown() {
+            const now = new Date();
+            const difference = targetDate - now;
+            
+            // Si el tiempo ha llegado a cero
+            if (difference <= 0) {
+                countdownElement.textContent = "00:00:00:00";
+                statusMessage.classList.add('hidden'); // Oculta el mensaje
+                eventLink.style.display = 'inline-block';
+                return;
+            }
+            
+            // Cálculo de días, horas, minutos y segundos
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            
+            // Formateo con ceros a la izquierda
+            const formattedDays = days.toString().padStart(2, '0');
+            const formattedHours = hours.toString().padStart(2, '0');
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+            
+            // Actualizar el contador
+            countdownElement.textContent = `${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }
+        
+        // Actualizar el contador cada segundo
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
